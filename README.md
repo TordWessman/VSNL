@@ -202,13 +202,13 @@ do {
 }
 ```
 ## 3. Other Examples
-* [Simple Weather app](VSNLExample)
-* [User handling](VSNLExample/UsersExample.swift)
-* [Basic Requests](VSNLExample/SimpleExamples.swift)
-* [Advanced Requests](VSNLExample/AdvancedExamples.swift)
+* [Simple Weather app](Example/VSNLExample)
+* [User handling](Example/VSNLExample/UsersExample.swift)
+* [Basic Requests](Example/VSNLExample/SimpleExamples.swift)
+* [Advanced Requests](Example/VSNLExample/AdvancedExamples.swift)
 
 ## 4. About
 _VSNL_ was an acronym for "Very Simple Network Layer", but once I wrote it, I realized it wasn't very simple anymore, so I believe it's a more suitable abbreviation for  "Vintage Scaffolding Network Layer" or "Vampires Spreading Neurotic Love".
 
 ## 5. License
-VSNL is released under the MIT license. See [LICENCE](LICENCE.txt)
+VSNL is released under the MIT license. See [LICENCE](LICENCE)

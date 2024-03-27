@@ -7,7 +7,7 @@
 
 import Foundation
 
-/** Response data for a VSNL request that returned expected values.
+/** Response data for a VSNL request which returned "expected" values.
 
     A successful response will contain a `model` of type `ResponseType`.
 
@@ -34,7 +34,16 @@ public struct VSNLResponse<RequestType: VSNL.Request, ErrorType: Decodable> {
         case failure(_ error: ErrorType)
     }
 
-    /** The `VSNLResponse.Result` (`.success(model) if the result was parsed correctly`).  */
+    /**
+        The `VSNLResponse.Result`
+
+        - `.success(model)` if the result was parsed correctly.
+
+        - `.failure(errorModel)` if a model of type `ErrorType` was parsed.
+
+        - `nil` if nothing was parsed (typically a HTTP 204).
+
+     */
     public var result: Result? {
         if let model {
             return .success(model)
