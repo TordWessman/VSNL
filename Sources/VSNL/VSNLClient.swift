@@ -20,12 +20,12 @@ public protocol VSNLClient: Actor {
 
         1. The HTTP status code == 200 and the HTTP body could be parsed as a `RequestType.ResponseType`. A `VSNLResponse` will be returned with the `model` property set.
         2. The HTTP status code != 200 and the HTTP body could be parsed as an  `ErrorType`.  A `VSNLResponse` will be returned with the `error` property set.
-        3. The request task was cancelled, causing the method to return `nil`
-        4. An error occured causing the method to `throw`.
+        3. The request-task was canceled, causing the method to return `nil`
+        4. An error occurred causing the method to `throw`.
 
         - Parameters:
             - request: Request model conforming to `VSNL.Request`.
-        - Returns:`VSNLResponse<RequestType, ErrorType>` or `nil` if the request task was cancelled.
+        - Returns:`VSNLResponse<RequestType, ErrorType>` or `nil` if the request-task was canceled.
 
         - Throws: On any error or if the response can't be interpreted.
      */

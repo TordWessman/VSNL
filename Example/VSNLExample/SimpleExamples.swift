@@ -10,13 +10,13 @@ import VSNL
 
 func simpleExample1() async {
 
-    // The `host` parameters provides the "root URL" for every request. It can optionally define URL Scheme ("http://example.com") and/or a base path ("example.com/base/path").
+    // The `host` parameters provide the "root URL" for every request. It can optionally define a URL Scheme ("http://example.com") and/or a base path ("example.com/base/path").
     let client = VSNL.SimpleClient(host: "example.com")
 
     if let response = try? await client.send(MyGetRequest(requestValue: 42)) {
         print(response)
     } else {
-        print("Request failed or was cancelled")
+        print("Request failed or was canceled")
     }
 
     // ...
@@ -34,7 +34,7 @@ func simpleExample2() async {
 
     let session = VSNL.Session(host: "example.com")
 
-    // Every request (regardles of HTTP method will include the query string parameter "apiKey=1234").
+    // Every request (regardless of HTTP method will include the query string parameter "apiKey=1234").
     await session.setQueryStringParameter(key: "apiKey", value: "1234")
     let client = VSNL.SimpleClient(session: session)
 
@@ -48,7 +48,7 @@ func simpleExample2() async {
                 print("User not authenticated")
             }
         } else {
-            print("Sign in task was cancelled.")
+            print("Sign in task was canceled.")
         }
     } catch {
         print("Sign in failed with error: \(error).")

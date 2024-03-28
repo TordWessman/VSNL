@@ -41,7 +41,7 @@ public struct VSNLResponse<RequestType: VSNL.Request, ErrorType: Decodable> {
 
         - `.failure(errorModel)` if a model of type `ErrorType` was parsed.
 
-        - `nil` if nothing was parsed (typically a HTTP 204).
+        - `nil` if nothing was parsed (typically an HTTP 204).
 
      */
     public var result: Result? {

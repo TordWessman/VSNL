@@ -14,5 +14,5 @@ public protocol VSNLNetworkLayer {
     func data(for request: URLRequest) async throws -> (Data, URLResponse)
 }
 
-/** Enfore URLSession to conform to VSNLNetworkLayer. */
+/** Enforce URLSession to conform to VSNLNetworkLayer. */
 extension URLSession: VSNLNetworkLayer { }

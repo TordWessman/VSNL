@@ -10,7 +10,7 @@ import Foundation
 /** Simple HTTP client interface. */
 public protocol VSNLSimpleClient: Actor {
 
-    /** Sends a request of type `RequestType` and returns a model of type `RequestType.ResponseType` if successful or `nil` if request was cancelled or HTTP status 204. */
+    /** Sends a request of type `RequestType` and returns a model of type `RequestType.ResponseType` if successful or `nil` if the request was canceled or HTTP status code was 204 (No Content). */
     @discardableResult
     func send<RequestType: VSNL.Request>(_ request: RequestType) async throws ->
     RequestType.ResponseType?
@@ -29,7 +29,7 @@ public actor VSNLDefaultSimpleClient {
         client = VSNLDefaultClient<VSNLNoErrorModelDefined>(session: session, network: network, requestFactory: requestFactory)
     }
 
-    /** Convenience initializer where a `VSNLDefaultSession` is creaded using the `host` parameter. */
+    /** Convenience initializer where a `VSNLDefaultSession` is created using the `host` parameter. */
     public init(host: String) {
         client = VSNLDefaultClient<VSNLNoErrorModelDefined>(session: VSNLDefaultSession(host: host))
     }

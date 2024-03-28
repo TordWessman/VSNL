@@ -17,7 +17,7 @@ func advancedExample1() async {
         struct Response: Decodable { /* ... response properties ... */ }
     }
 
-    // This is an common error the backend uses to communicate recoverable information.
+    // This is a common error the backend uses to communicate recoverable information.
     struct ExpectedErrorModel: Decodable {
         let message: String
         let code: Int
@@ -37,7 +37,7 @@ func advancedExample1() async {
             case .failure(let expectedErrorModel):
                 print("This can happen sometimes: \(expectedErrorModel)")
             }
-        } else { print("Request task was cancelled") }
+        } else { print("Request task was canceled") }
     } catch {
         print("Request failed critically!")
     }
@@ -67,7 +67,7 @@ func advancedExample2() async {
         struct Response: Decodable { /* ... response properties ... */ }
     }
 
-    // Set up a custom `URLSession` with custom cache configuration.
+    // Set up a custom `URLSession` with a custom cache configuration.
     let urlSessionConfiguration = URLSessionConfiguration.default
     urlSessionConfiguration.urlCache = URLCache(memoryCapacity: 2 * 1024 * 1024,
                                                 diskCapacity: 8 * 1024 * 1024)
@@ -93,8 +93,8 @@ func advancedExample2() async {
             // Fetch the model from the response.
             guard let responseModel = response.model else {
 
-                // If the responseModel was nil, it should be a HTTP 204 (no content) reply.
-                return print("Got no response model. Was it a HTTP 204? (code: \(response.code)")
+                // If the responseModel was nil, it should be an HTTP 204 (no content) reply.
+                return print("Got no response model. Was it an HTTP 204? (code: \(response.code)")
             }
             print("Got response: \(responseModel)")
         }

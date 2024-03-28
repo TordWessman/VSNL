@@ -17,7 +17,7 @@ public enum VSNLError: Error {
     /** Unable to create URL from URLComponents. */
     case urlCreation(path: String)
 
-    /** Response was not a HTTP Response. */
+    /** Response was not an HTTP Response. */
     case responseType(response: URLResponse?)
 
     /** The response code was unexpected. */
