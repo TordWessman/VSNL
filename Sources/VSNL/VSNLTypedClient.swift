@@ -1,5 +1,5 @@
 //
-//  VSNLClient.swift
+//  VSNLBasicClient.swift
 //  VSNL
 //
 //  Created by Tord Wessman on 2024-03-26.
@@ -8,7 +8,7 @@
 import Foundation
 
 /** The HTTP Client. */
-public protocol VSNLClient: Actor {
+public protocol VSNLTypedClient: Actor {
 
     /** A `Decodable` type representing an _expected_ error model. */
     associatedtype ErrorType: Decodable
@@ -33,8 +33,8 @@ public protocol VSNLClient: Actor {
         VSNLResponse<RequestType, ErrorType>?
 }
 
-/** Default `VSNLClient` implementation. */
-public actor VSNLDefaultClient<T: Decodable>: VSNLClient {
+/** Default `VSNLBasicClient` implementation. */
+public actor VSNLDefaultClient<T: Decodable>: VSNLTypedClient {
 
     public typealias ErrorType = T
 
@@ -44,7 +44,15 @@ public actor VSNLDefaultClient<T: Decodable>: VSNLClient {
     private let requestFactory: VSNLRequestFactory
     private let network: VSNLNetworkLayer
 
-    /** Initialize using a `VSNLSession` and optional `VSNLNetworkLayer` and a `VSNLRequestFactory` if more configuration is needed. */
+    /**
+        Default network client implementation.
+        Initialize the clients with the requiered parameter `session`.
+
+        - Parameters:
+            - session: A `VSNLSession`. Use `VSNL.Session` if no custom session is required.
+            - network: Underlying network layer. Defaults to `URLSession.shared`.
+            - requestFactory: Responsible for creating `URLRequests` using a `VSNLSession`. Defaults to `VSNLDefaultRequestFactory`
+    */
     public init(session: VSNLSession,
                 network: VSNLNetworkLayer = URLSession.shared,
                 requestFactory: VSNLRequestFactory = VSNLDefaultRequestFactory()) {
@@ -75,7 +83,7 @@ public actor VSNLDefaultClient<T: Decodable>: VSNLClient {
         }
 
         if response.statusCode == 204 {
-            return VSNLResponse(model: nil, error: nil, code: 204, headers: response.allHeaderFields)
+            return VSNLResponse(code: 204, model: nil, error: nil, headers: response.allHeaderFields)
         }
 
         if data.isEmpty {
@@ -84,19 +92,22 @@ public actor VSNLDefaultClient<T: Decodable>: VSNLClient {
 
         if response.statusCode == 200 {
             let responseModel: RequestType.ResponseType = try JSONDecoder().decode(RequestType.ResponseType.self, from: data)
-            return VSNLResponse(model: responseModel,
+            return VSNLResponse(code: 200,
+                                model: responseModel,
                                 error: nil,
-                                code: 200,
                                 headers: response.allHeaderFields)
         }
 
         if let errorModel = try? JSONDecoder().decode(ErrorType.self, from: data) {
-           return VSNLResponse(model: nil,
+           return VSNLResponse(code: response.statusCode,
+                               model: nil,
                                error: errorModel,
-                               code: response.statusCode,
                                headers: response.allHeaderFields)
         }
 
         throw VSNL.Error.invalidResponseCode(code: response.statusCode)
     }
 }
+
+/** Protocol for the ``VSNLBasicClient`` implementation (without "expected error" type). */
+public protocol VSNLClient: VSNLTypedClient where ErrorType == VSNLNoErrorModelDefined { }

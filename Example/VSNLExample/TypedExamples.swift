@@ -1,5 +1,5 @@
 //
-//  AdvancedExamples.swift
+//  TypedExamples.swift
 //  VSNLExample
 //
 //  Created by Tord Wessman on 2024-03-27.
@@ -8,7 +8,7 @@
 import Foundation
 import VSNL
 
-func advancedExample1() async {
+func typedExample1() async {
 
     struct Request: VSNL.Request {
         typealias ResponseType = Response
@@ -26,7 +26,7 @@ func advancedExample1() async {
     let session = VSNL.Session(host: "example.com")
 
     // The client is typed to `ExpectedErrorModel`. If the HTTP status code != 200, the client will try to parse the response into an `ExpectedErrorModel`.
-    let client: VSNL.AdvancedClient<ExpectedErrorModel> = VSNL.AdvancedClient(session: session)
+    let client: VSNL.TypedClient<ExpectedErrorModel> = VSNL.TypedClient(session: session)
 
     do {
         if let response = try await client.send(Request()),
@@ -43,7 +43,7 @@ func advancedExample1() async {
     }
 }
 
-func advancedExample2() async {
+func typedExample2() async {
 
     // Example of a request with `CodingKeys` to mask out some properties.
     struct Request: VSNL.Request {

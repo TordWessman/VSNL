@@ -16,7 +16,8 @@ public protocol VSNLSimpleClient: Actor {
     RequestType.ResponseType?
 }
 
-public actor VSNLDefaultSimpleClient {
+/** Provides a simplified network interface. */
+public actor VSNLDefaultSimpleClient: VSNLSimpleClient {
 
     private let client: VSNLDefaultClient<VSNLNoErrorModelDefined>
 

@@ -10,14 +10,14 @@ import XCTest
 
 final class DefaultClientTest: XCTestCase {
 
-    func makeSUT() -> (VSNL.AdvancedClient<MockErrorResponse>, MockNetworkLayer, SimpleMockRequest) {
+    func makeSUT() -> (VSNL.TypedClient<MockErrorResponse>, MockNetworkLayer, SimpleMockRequest) {
 
         let factory = MockURLRequestFactory()
         let session = VSNLDefaultSession(host: "https://www.foo.bar")
         let mockNetwork = MockNetworkLayer()
         mockNetwork.statusCode = 200
         let request = SimpleMockRequest(aValue: 42, method: .put, path: "/none")
-        let connection = VSNL.AdvancedClient<MockErrorResponse>(session: session, network: mockNetwork, requestFactory: factory)
+        let connection = VSNL.TypedClient<MockErrorResponse>(session: session, network: mockNetwork, requestFactory: factory)
 
         return (connection, mockNetwork, request)
     }

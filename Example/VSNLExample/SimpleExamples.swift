@@ -8,6 +8,23 @@
 import Foundation
 import VSNL
 
+struct MyRequestExample: VSNL.Request {
+
+    typealias ResponseType = MyRequestExample.MyResponseExample
+    let foo: Int
+    let bar: String
+
+    func path() -> String { "relative/path" }
+    func method() -> VSNL.HttpMethod { .post }
+    func headers() -> [String : String]? { nil }
+
+    // Definition of response object ({"baz": Int, "boo": Int? })
+    struct MyResponseExample: Decodable {
+        let baz: Int
+        let boo: Int?
+    }
+}
+
 func simpleExample1() async {
 
     // The `host` parameters provide the "root URL" for every request. It can optionally define a URL Scheme ("http://example.com") and/or a base path ("example.com/base/path").

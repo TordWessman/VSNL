@@ -28,6 +28,12 @@ public struct VSNLResponse<RequestType: VSNL.Request, ErrorType: Decodable> {
     /** Response headers. */
     public let headers: [AnyHashable: Any]?
 
+    public init(code: Int, model: RequestType.ResponseType? = nil, error: ErrorType? = nil, headers: [AnyHashable : Any]? = nil) {
+        self.code = code
+        self.model = model
+        self.error = error
+        self.headers = headers
+    }
     /** Typed `Result` enumeration. */
     public enum Result {
         case success(_ model: RequestType.ResponseType)
