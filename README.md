@@ -16,11 +16,14 @@ import VSNL
 
 // The `host` parameters provide the "root URL" for every request. It can optionally define a URL Scheme ("http://example.com") and/or a base path ("example.com/base/path").
 let client = VSNL.SimpleClient(host: "example.com")
-
-if let response = try? await client.send(MyGetRequest(requestValue: 42)) {
-    print(response)
-} else {
-    print("Request failed or was canceled")
+do {
+    if let response = try await client.send(MyGetRequest(requestValue: 42)) {
+        print(response)
+    } else {
+        print("Request was canceled")
+    }
+} catch {
+    print("Request failed: \(error)")
 }
 
 // ...
@@ -37,7 +40,7 @@ struct MyGetRequest: VSNL.Request {
     // The (relative) path to the resource.
     func path() -> String { "/some/path" }
 
-    // Definition of the response object
+    // Definition of the response object. In this case, { "someReturnValue": Int }
     struct MyResponse: Decodable { let someReturnValue: Int }
 }
 ```
@@ -180,14 +183,14 @@ do {
 }
 ```
 
-### 3.2 Other configuration options
+### 3.2 Other Configuration Options
 Here, we'll employ a `VSNL.Client`  to demonstrate some of the other available configuration options. 
 
 * Inject a custom `URLSession` (with a separate cache).
 * Set the request cache policy by injecting a custom `VSNLDefaultRequestFactory`.
 * Check the HTTP response headers.
-* Use `CodingKeys` to mask out one of the properties in `Request` in order for it to be used when composing the `path()`.
-* Use custom headers for `Request`.
+* Use `CodingKeys` to mask out one of the properties in a `VSNL.Request` in order for it to be used when composing the `path()`.
+* Use custom headers for a `VSNL.Request`.
 * See what happens if we get an HTTP status code 204 from the backend.
 
 ```swift
@@ -256,7 +259,7 @@ Each of the VSNL-client implementations has their corresponding `protocol`s.
 * `VSNL.Client` implements `VSNLClient`
 * `VSNL.TypedClient` implements `VSNLTypedClient`
 
-### 4.1 VSNLSimpleClientd and VSNLClient
+### 4.1 VSNLSimpleClient and VSNLClient
 Neither `VSNLSimpleClient` or `VSNLClient` have any `associatedType`, so injection or mocking is relatively straight-forward.
 ```swift
 import VSNL
