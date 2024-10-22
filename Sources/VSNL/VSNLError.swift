@@ -21,7 +21,7 @@ public enum VSNLError: Error {
     case responseType(response: URLResponse?)
 
     /** The response code was unexpected. */
-    case invalidResponseCode(code: Int)
+    case invalidResponseCode(code: Int, body: String?)
 
     /** An error that has been decoded from an expected format. */
     case error(model: Decodable)

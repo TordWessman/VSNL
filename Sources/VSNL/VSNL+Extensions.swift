@@ -23,16 +23,22 @@ internal extension Encodable {
     }
 
     /** Encodes object as a query string parameterized string. */
-    func asQuery() throws -> [URLQueryItem] {
+    public func asQuery() throws -> [URLQueryItem] {
 
         var queryItems = [URLQueryItem]()
 
         let parameters = try asDictionary()
 
         for parameter in parameters {
-            queryItems.append(URLQueryItem(name: parameter.key, value: "\(parameter.value)"))
+            if let nestedObject = parameter.value as? [String: Any] {
+                let encoded = try JSONSerialization.data(withJSONObject: nestedObject, options: .withoutEscapingSlashes)
+                let queryString = String(data: encoded, encoding: .utf8)!
+                queryItems.append(URLQueryItem(name: parameter.key, value: queryString))
+            } else {
+                queryItems.append(URLQueryItem(name: parameter.key, value: "\(parameter.value)"))
+            }
         }
 
-        return queryItems
+        return queryItems.reversed()
     }
 }

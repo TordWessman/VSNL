@@ -105,7 +105,7 @@ public actor VSNLDefaultClient<T: Decodable>: VSNLTypedClient {
                                headers: response.allHeaderFields)
         }
 
-        throw VSNL.Error.invalidResponseCode(code: response.statusCode)
+        throw VSNL.Error.invalidResponseCode(code: response.statusCode, body: String(data: data, encoding: .utf8))
     }
 }
 
